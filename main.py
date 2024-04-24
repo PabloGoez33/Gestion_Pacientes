@@ -38,8 +38,6 @@ def showOption_3(Cola):
 
     Cola.actualizar_prioridad(NombrePaciente, NuevaPrioridad, Cola.head)
 
-    Cola.replace(Cola.head, NombrePaciente, NuevaPrioridad)
-
     return Cola
 
 def showOption_4(Cola):

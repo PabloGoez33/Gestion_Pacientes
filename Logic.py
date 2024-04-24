@@ -33,7 +33,10 @@ class DLinkedList:
             self.head = DNode(value)
             self.size += 1
             return
-        #Para que se agregen primero que le mismo prioridad <=
+        #Para que se agregen primero que el mismo prioridad <=
+        #if(value.NombrePaciente < node.value.NombrePaciente): (Orden alfabetico)
+        #if(value.Edad < node.value.Edad): (Edad)
+        #if(value.Prioridad < node.value.Prioridad): (Prioridad)
         if(value.Prioridad < node.value.Prioridad):
             new_node = DNode(value)
             new_node.next = node
@@ -91,6 +94,8 @@ class DLinkedList:
     
     #Mostrar siguiente atencion
     def mostrar_siguiente_atencion(self, node):
+        if node is None:
+            return
         print(f"Paciente: {node.value.NombrePaciente}")
         print(f"Condicion: {node.value.Condicion}")
         print(f"Prioridad: {node.value.Prioridad}")
@@ -106,23 +111,19 @@ class DLinkedList:
             return 
         self.delete(node.next)
     
+    #Actualizar prioridad/lista
     def actualizar_prioridad(self, nombre_paciente, nueva_prioridad, node):
         if node is None:
             return
         
         if node.value.NombrePaciente == nombre_paciente:
-            # Creamos un nuevo nodo con el paciente actualizado
             paciente_actualizado = Paciente(node.value.NombrePaciente, node.value.Edad, node.value.Condicion, nueva_prioridad)
-            
-            # Eliminamos el nodo actual
             if node.prev is not None:
                 node.prev.next = node.next
             else:
                 self.head = node.next
             if node.next is not None:
                 node.next.prev = node.prev
-            
-            # Agregamos el paciente actualizado a la lista
             self.append(paciente_actualizado, self.head)
             return
         else:
