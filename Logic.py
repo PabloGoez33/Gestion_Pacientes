@@ -105,11 +105,26 @@ class DLinkedList:
             self.size -= 1
             return 
         self.delete(node.next)
-            
-    def replace(self, node, nombre_paciente, nueva_prioridad):
-        if(node == None): return
-        if node.value.NombrePaciente == nombre_paciente:
-            node.value.Prioridad = nueva_prioridad
+    
+    def actualizar_prioridad(self, nombre_paciente, nueva_prioridad, node):
+        if node is None:
             return
-        siguiente_node = node.next
-        self.replace(siguiente_node, nombre_paciente, nueva_prioridad)
+        
+        if node.value.NombrePaciente == nombre_paciente:
+            # Creamos un nuevo nodo con el paciente actualizado
+            paciente_actualizado = Paciente(node.value.NombrePaciente, node.value.Edad, node.value.Condicion, nueva_prioridad)
+            
+            # Eliminamos el nodo actual
+            if node.prev is not None:
+                node.prev.next = node.next
+            else:
+                self.head = node.next
+            if node.next is not None:
+                node.next.prev = node.prev
+            
+            # Agregamos el paciente actualizado a la lista
+            self.append(paciente_actualizado, self.head)
+            return
+        else:
+            siguiente_node = node.next
+            self.actualizar_prioridad(nombre_paciente, nueva_prioridad, siguiente_node)
