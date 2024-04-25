@@ -28,7 +28,7 @@ class DLinkedList:
             node = node.next
 
     #Agregar
-    def append(self, value, node):
+    """"def append(self, value, node):
         if(self.head is None):
             self.head = DNode(value)
             self.size += 1
@@ -54,33 +54,78 @@ class DLinkedList:
             new_node.prev = node
             self.size += 1
             return
+        self.append(value, node.next)"""
+    def append(self, value, node):
+        if(self.head is None):
+            self.head = DNode(value)
+            self.size += 1
+            return
+        if(value.Prioridad < node.value.Prioridad):
+            new_node = DNode(value)
+            new_node.next = node
+            new_node.prev = node.prev
+            if(node.prev is not None):
+                node.prev.next = new_node
+            else:
+                self.head = new_node
+            node.prev = new_node
+            self.size += 1
+            prioridad = value.Prioridad
+            if self.cuento(prioridad) > 1:
+                self.actualizar_prioridad(self.head, prioridad)
+            return
+        if(node.next is None):
+            new_node = DNode(value)
+            node.next = new_node
+            new_node.prev = node
+            self.size += 1
+            prioridad = value.Prioridad
+            if self.cuento(prioridad) > 1:
+                self.actualizar_prioridad(self.head, prioridad)
+            return
         self.append(value, node.next)
 
-    #Agregar al comienzo
-    def preppend(self, value):
-        new_node = DNode(value)
-        self.head = new_node
-        new_node.next = self.head
-        self.size += 1
+    """def cuento(self, prioridad, node):
+        contador = 0
+        while node is not None:
+            if node.value.Prioridad == prioridad:
+                contador += 1
+            node = node.next
+        if contador == 2:
+            return contador
+        return contador"""
+    
+    def cuento(self, prioridad):
+        contador = 0
+        node = self.head
+        while node is not None:
+            if node.value.Prioridad == prioridad:
+                contador += 1
+            node = node.next
+        return contador
 
-    #Eliminar por indice
-    def delete_at_index(self, del_index, node, pos=0):
-        if(del_index >= self.size): return
-        if(del_index == 0):
-            next = self.head.next
-            self.head.next = None
-            self.head = next
-            self.head.prev = None
-            self.size -= 1
+    def actualizar_prioridad(self, node, prioridad):
+        while node is not None:
+            if node.value.Prioridad == prioridad:
+                paciente_actualizado = Paciente(node.value.NombrePaciente, node.value.Edad, node.value.Condicion, node.value.Prioridad + 1)
+                node.value = paciente_actualizado
+            node = node.next
+
+    """def actualizar_prioridad(self, node, contador):
+        if(node is None):
             return
-        if(pos == del_index):
-            next = node.next
-            prev = node.prev
-            node.next.prev = prev
-            node.prev.next = next
-            self.size -= 1
+        if(contador == 0):
             return
-        self.delete_at_index(del_index, node.next, pos+1)
+        else:
+            paciente_actualizado = Paciente(node.value.NombrePaciente, node.value.Edad, node.value.Condicion, node.value.Prioridad+1)
+            if node.prev is not None:
+                node.prev.next = node.next
+            else:
+                self.head = node.next
+            if node.next is not None:
+                node.next.prev = node.prev
+            self.append(paciente_actualizado, self.head)
+        self.actualizar_prioridad(node.next, contador-1)"""
 
     #Eliminar primero
     def delete_atencion(self):
@@ -100,19 +145,9 @@ class DLinkedList:
         print(f"Condicion: {node.value.Condicion}")
         print(f"Prioridad: {node.value.Prioridad}")
         return
-
-    #Borra el ultimo de la lista
-    def delete(self, node):
-        if(self.size == 0):return
-        if(node.next == None):
-            node.prev.next = None
-            node.prev = None
-            self.size -= 1
-            return 
-        self.delete(node.next)
     
     #Actualizar prioridad/lista
-    def actualizar_prioridad(self, nombre_paciente, nueva_prioridad, node):
+    def actualizar_prioridad_nombre(self, nombre_paciente, nueva_prioridad, node):
         if node is None:
             return
         

@@ -36,7 +36,7 @@ def showOption_3(Cola):
     NombrePaciente = input("Nombre del paciente: ")
     NuevaPrioridad = int(input("Nueva prioridad: "))
 
-    Cola.actualizar_prioridad(NombrePaciente, NuevaPrioridad, Cola.head)
+    Cola.actualizar_prioridad_nombre(NombrePaciente, NuevaPrioridad, Cola.head)
 
     return Cola
 
