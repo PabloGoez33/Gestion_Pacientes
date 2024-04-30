@@ -163,4 +163,4 @@ class DLinkedList:
             return
         else:
             siguiente_node = node.next
-            self.actualizar_prioridad(nombre_paciente, nueva_prioridad, siguiente_node)
+            self.actualizar_prioridad_nombre(nombre_paciente, nueva_prioridad, siguiente_node)
