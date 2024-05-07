@@ -28,33 +28,11 @@ class DLinkedList:
             node = node.next
 
     #Agregar
-    """"def append(self, value, node):
-        if(self.head is None):
-            self.head = DNode(value)
-            self.size += 1
-            return
         #Para que se agregen primero que el mismo prioridad <=
         #if(value.NombrePaciente < node.value.NombrePaciente): (Orden alfabetico)
         #if(value.Edad < node.value.Edad): (Edad)
         #if(value.Prioridad < node.value.Prioridad): (Prioridad)
-        if(value.Prioridad < node.value.Prioridad):
-            new_node = DNode(value)
-            new_node.next = node
-            new_node.prev = node.prev
-            if(node.prev is not None):
-                node.prev.next = new_node
-            else:
-                self.head = new_node
-            node.prev = new_node
-            self.size += 1
-            return
-        if(node.next is None):
-            new_node = DNode(value)
-            node.next = new_node
-            new_node.prev = node
-            self.size += 1
-            return
-        self.append(value, node.next)"""
+        
     def append(self, value, node):
         if(self.head is None):
             self.head = DNode(value)
@@ -70,30 +48,20 @@ class DLinkedList:
                 self.head = new_node
             node.prev = new_node
             self.size += 1
-            prioridad = value.Prioridad
+            """prioridad = value.Prioridad
             if self.cuento(prioridad) > 1:
-                self.actualizar_prioridad(self.head, prioridad)
+                self.actualizar_prioridad(self.head, prioridad)"""
             return
         if(node.next is None):
             new_node = DNode(value)
             node.next = new_node
             new_node.prev = node
             self.size += 1
-            prioridad = value.Prioridad
+            """prioridad = value.Prioridad
             if self.cuento(prioridad) > 1:
-                self.actualizar_prioridad(self.head, prioridad)
+                self.actualizar_prioridad(self.head, prioridad)"""
             return
         self.append(value, node.next)
-
-    """def cuento(self, prioridad, node):
-        contador = 0
-        while node is not None:
-            if node.value.Prioridad == prioridad:
-                contador += 1
-            node = node.next
-        if contador == 2:
-            return contador
-        return contador"""
     
     def cuento(self, prioridad):
         contador = 0
@@ -110,22 +78,6 @@ class DLinkedList:
                 paciente_actualizado = Paciente(node.value.NombrePaciente, node.value.Edad, node.value.Condicion, node.value.Prioridad + 1)
                 node.value = paciente_actualizado
             node = node.next
-
-    """def actualizar_prioridad(self, node, contador):
-        if(node is None):
-            return
-        if(contador == 0):
-            return
-        else:
-            paciente_actualizado = Paciente(node.value.NombrePaciente, node.value.Edad, node.value.Condicion, node.value.Prioridad+1)
-            if node.prev is not None:
-                node.prev.next = node.next
-            else:
-                self.head = node.next
-            if node.next is not None:
-                node.next.prev = node.prev
-            self.append(paciente_actualizado, self.head)
-        self.actualizar_prioridad(node.next, contador-1)"""
 
     #Eliminar primero
     def delete_atencion(self):
@@ -164,3 +116,37 @@ class DLinkedList:
         else:
             siguiente_node = node.next
             self.actualizar_prioridad_nombre(nombre_paciente, nueva_prioridad, siguiente_node)
+    
+    def urgente(self):
+        
+        nodo_y = self.prioridad(self.head)
+        nodo_x = self.primer_nodo(self.head)
+        
+        aux1 = nodo_y.prev
+        aux2 = nodo_y.next
+        
+        nodo_y.prev = nodo_x.prev
+        nodo_y.next = nodo_x
+        
+        if(aux2 is None):
+            aux1.next = None
+        else:
+            aux1.next = aux2            
+            aux2.prev = aux1
+        
+        nodo_x.prev.next = nodo_y
+        nodo_x.prev = nodo_y
+            
+    def primer_nodo(self, node):
+        while node is not None:
+            if node.value.Prioridad == (self.prioridad(self.head).value.Prioridad):
+                return node
+            node = node.next
+            
+            
+    def prioridad(self, node):
+        palabra = "urgente"
+        while node is not None:
+            if palabra in node.value.Condicion:
+                return node
+            node = node.next

@@ -9,7 +9,8 @@ def showMenu():
     print("2. Ingresar paciente")
     print("3. Actualizar prioridad")
     print("4. Extraer/Atencion paciente")
-    print("5. Salir")
+    print("5. Actualizar cola por urgencia")
+    print("6. Salir")
 
 def showOption_1(Cola):
     return Cola.traverse()
@@ -51,6 +52,9 @@ def showOption_4(Cola):
     Cola.mostrar_siguiente_atencion(Cola.head)
     return Cola
 
+def showOption_5(Cola):
+    Cola.urgente()
+
 def main():
 
     Cola_Pacientes = DLinkedList()
@@ -70,6 +74,8 @@ def main():
         elif selection == 4:
             showOption_4(Cola_Pacientes)
         elif selection == 5:
+            showOption_5(Cola_Pacientes)
+        elif selection == 6:
             print("Usted ha salido del programa.")
             break
         else:
